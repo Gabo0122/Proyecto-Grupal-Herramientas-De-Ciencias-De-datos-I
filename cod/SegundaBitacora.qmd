@@ -16,7 +16,7 @@ library(tidyverse)
 library(readxl)
 paleta <- c("#1F3A61", "#3A6A8D", "#5CB4D1", "#F6DF60", "#FAA700")
 
-Datos<-read_excel("../data/datos_diplomas_sector_estatal_2024.xlsx")
+Datos<-read_excel("datos_diplomas_sector_estatal_2024.xlsx")
 
 Datos <- Datos %>%
   mutate(
@@ -30,6 +30,8 @@ Datos <- Datos %>%
     )
   )
 table(Datos$ABREVIACIÓN)
+
+view(Datos)
 ```
 
 ## 1. Identificación de los elementos del conjunto de datos
@@ -134,7 +136,7 @@ ggplot(data = Datos, aes(x = EDAD)) +
   geom_histogram(
     binwidth = 1,
     boundary = 19,
-    fill = paleta[3],
+    fill = paleta[2],
     color = "white"
   ) +
   labs(
@@ -148,7 +150,55 @@ En el gráfico se observa que la mayor concentración de personas se encuentra e
 
 ## 5. Relación entre las variables
 
-### Relación entre sexo de los graduados y clasificación STEM
+### Comparación académica
+
+#### Top 10 de carreras con más graduados
+```{r}
+# Distribución de graduados por carrera
+graduados_carrera <- Datos %>%
+  group_by(CARRERA) %>%
+  summarise(
+    n_graduados = n(),
+    proporcion = n() / nrow(Datos)
+  ) %>%
+  arrange(desc(n_graduados))
+
+top10 <- graduados_carrera %>%
+  arrange(desc(n_graduados)) %>%
+  head(10)
+
+ggplot(top10, aes(x = reorder(CARRERA, n_graduados), 
+                  y = n_graduados)) +
+  geom_col(fill = paleta[2]) +
+  coord_flip() +
+  labs(title = "Top 10 carreras con más graduados",
+       x = "Carrera",
+       y = "Graduados") +
+  theme_minimal()
+```
+El gráfico muestra los 10 carreras con mayor cantidad de graduados. Se observa que la carrera con mayor número de egresados es Administración de Empresas, con un poco menos de 1.250 graduados. Le sigue Educación General Básica del primer y segundo ciclo, con aproximadamente 900 egresados. La carrera con menor número de graduados, pero aún dentro del top, es Administración con énfasis en Gestión Financiera, con cerca de 250 graduados.
+
+#### Proporción de graduados STEM
+```{r}
+# Distribución de graduados STEM vs No-STEM (totales)
+stem_dist <- Datos %>%
+  group_by(STEM_MICITT) %>%
+  summarise(
+    n = n()
+  )
+
+# Gráfico de barras por totales
+ggplot(stem_dist, aes(x = STEM_MICITT, y = n, fill = STEM_MICITT)) +
+  geom_col() +
+  labs(title = "Total de graduados STEM vs No-STEM",
+       x = "",
+       y = "Número de graduados") +
+  theme_minimal() +
+  scale_fill_manual(values = paleta[2:3])
+```
+El gráfico presenta el total de graduados según su área de conocimiento, distinguiendo entre STEM y No STEM. Se observa que los graduados en áreas No STEM son aproximadamente 14.000 personas, mientras que los graduados en STEM alcanzan un poco más de 5.000 personas.
+
+#### Relación entre sexo de los graduados y clasificación STEM
 ```{r}
 ggplot(Datos, aes(x = STEM_MICITT, fill = SEXO)) +
   geom_bar(position = "dodge") +
@@ -163,7 +213,40 @@ ggplot(Datos, aes(x = STEM_MICITT, fill = SEXO)) +
 ```
 En el gráfico se observa que, en las carreras no STEM, la mayoría de las personas graduadas son mujeres, superando casi el doble de la cantidad de hombres graduados. En contraste, en las carreras STEM, aunque las cifras son más equilibradas, la cantidad de hombres graduados es mayor que la de mujeres.
 
-### Comparación entre número de graduados por provincia y universidad   
+#### Graduados por universidad según área de conocimiento
+```{r}
+uni_graduados <- Datos %>%
+  group_by(ABREVIACIÓN) %>%
+  summarise(
+    n_graduados = n()
+  ) %>%
+  arrange(desc(n_graduados))
+
+top10_universidades <- uni_graduados %>% head(10)
+
+uni_area <- Datos %>%
+  group_by(ABREVIACIÓN, AREA_CONOCIMIENTO) %>%
+  summarise(n_graduados = n()) %>%
+  ungroup()
+
+paleta_expandida <- colorRampPalette(paleta)(length(unique(uni_area$AREA_CONOCIMIENTO)))
+# Función que expande los colores de una paleta que tiene pocos colores y para el gráfico se necesitan más
+
+ggplot(uni_area, aes(x = reorder(ABREVIACIÓN, n_graduados, sum), 
+                     y = n_graduados, 
+                     fill = AREA_CONOCIMIENTO)) +
+  geom_col() +
+  labs(title = "Graduados por universidad y área de conocimiento",
+       x = "Universidad",
+       y = "Número de graduados",
+       fill = "Área de conocimiento") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(hjust = 1)) +
+  scale_fill_manual(values = paleta_expandida)
+```
+El gráfico muestra la distribución de graduados por área de conocimiento según la universidad. En el TEC, la mayor cantidad de graduados se concentra en Ingenierías, destacando como la principal área de formación de esta institución. En la UNA, los graduados se concentran principalmente en Educación y Ciencias Económicas. La UNED también muestra su mayor número de egresados en Educación y Ciencias Económicas, siguiendo un patrón similar al de la UNA. Finalmente, la UCR se destaca por tener la mayor cantidad de graduados en Ciencias Básicas, además de una distribución considerable en Educación, Ingeniería y Ciencias Sociales, siendo esta última la institución con más egresados en dicha área.
+
+#### Comparación entre número de graduados por provincia y universidad   
 ```{r}
 Datos %>%
   mutate(
@@ -186,23 +269,205 @@ Datos %>%
 Aquí podemos observar que existe un tipo de relación entre la cantidad de personas graduadas por provincia de nacimiento y la ubicación de la universidad en la que obtuvieron su título, especialmente dentro de la GAM. Se aprecia que en Alajuela la mayoría de graduados provienen de la UTN, ubicada en esa misma provincia. En Heredia predomina la UNA y en San José la UCR, también localizada ahí. La única excepción a este patrón es el TEC, ya que aunque se encuentra en Cartago, en dicha provincia la mayoría de graduados son de la UCR.
 Por otro lado, en las provincias fuera de la GAM se observa que en Limón y Puntarenas la mayoría de graduados pertenecen a la UNED, lo cual tiene sentido al ser una universidad con modalidad virtual, mientras que en Guanacaste predominan los graduados de la UNA.
 
-### Distribución de niveles académicos según GAM / No GAM     
+### Comparación Territorial
+
+#### Efecto de estudiar en GAM vs fuera de GAM
 ```{r}
-Datos %>%
-  filter(!is.na(NIVEL_ACADEMICO), GAM_ESTUDIANTE %in% c("GAM", "No GAM")) %>%
-  ggplot(aes(x = NIVEL_ACADEMICO, fill = GAM_ESTUDIANTE)) +
-  geom_bar(position = "dodge") +
-  scale_fill_manual(values = paleta[2:3]) +
+# Distribución de graduados por GAM_SEDE
+gam_sede_dist <- Datos %>%
+  filter(!GAM_SEDE %in% c("Sin información", "No aplica")) %>%
+  group_by(GAM_SEDE) %>%
+  summarise(
+    n = n()
+  )
+
+# Gráfico de barras
+ggplot(gam_sede_dist, aes(x = reorder(GAM_SEDE, n), y = n, fill = GAM_SEDE)) +
+  geom_col() +
   labs(
-    title = "Distribución de niveles académicos según GAM / No GAM",
-    x = "Nivel académico",
-    y = "Cantidad de graduados",
-    fill = "Ubicación del estudiante"
+    title = "Distribución de graduados según ubicación de la sede universitaria",
+    x = "Estudia en GAM",
+    y = "Número de graduados"
+  ) +
+  theme_minimal() +
+  scale_fill_manual(values = paleta[2:3])
+```
+El gráfico muestra la distribución de graduados según si estudian en la GAM o fuera de ella. Se observa que más de la mitad de los graduados provienen de universidades situadas en la GAM, mientras que el resto se gradúa en instituciones fuera de esta región. Esto refleja la concentración de estudiantes en la región metropolitana y su predominancia en el total de egresados.
+
+#### Efecto de vivir en GAM vs fuera de GAM
+```{r}
+# Distribución de graduados por GAM_ESTUDIANTE 
+gam_est_dist <- Datos %>%
+  filter(!GAM_ESTUDIANTE %in% c("No aplica")) %>%
+  group_by(GAM_ESTUDIANTE) %>%
+  summarise(
+    n = n()
+  )
+
+# Gráfico de barras
+ggplot(gam_est_dist, aes(x = reorder(GAM_ESTUDIANTE, n), y = n, fill = GAM_ESTUDIANTE)) +
+  geom_col() +
+  labs(
+    title = "Distribución de graduados según residencia en la GAM",
+    x = "Vive en GAM",
+    y = "Número de graduados"
+  ) +
+  theme_minimal() +
+  scale_fill_manual(values = paleta[2:3])
+```
+El gráfico evidencia que la cantidad de egresados dentro y fuera de la GAM es bastante similar. Aunque la GAM presenta un número ligeramente mayor de graduados, la diferencia es mínima, aproximadamente unas 200 personas o incluso menos, lo que indica que la residencia dentro o fuera de la región metropolitana no genera grandes disparidades en la cantidad de egresados.
+
+#### Distribución de graduados según zona rural o urbana
+```{r}
+# Totales de graduados por zona
+zona_dist <- Datos %>%
+  filter(!ZONA_URBANO_RURAL_GRADUADO %in% c("Sin información", "No aplica")) %>%
+  group_by(ZONA_URBANO_RURAL_GRADUADO) %>%
+  summarise(n = n()) %>%
+  arrange(desc(n))
+
+# Gráfico
+ggplot(zona_dist, aes(x = reorder(ZONA_URBANO_RURAL_GRADUADO, n), y = n, fill = ZONA_URBANO_RURAL_GRADUADO)) +
+  geom_col() +
+  labs(
+    title = "Total de graduados por zona de residencia",
+    x = "Zona",
+    y = "Número de graduados"
+  ) +
+  theme_minimal() +
+  scale_fill_manual(values = paleta[2:3])
+```
+El gráfico muestra la distribución de graduados según su zona de residencia. Se observa que la mayoría de los egresados viven en zonas urbanas, con aproximadamente 15.000 personas, mientras que poco más de 5.000 provienen de zonas rurales. Esto indica una concentración significativa de graduados en áreas urbanas frente a rurales.
+### Comparación Socio-Demográficas
+
+#### Distribución de graduados por sexo 
+```{r}
+# Distribución de graduados por sexo 
+sexo_dist <- Datos %>%
+  group_by(SEXO) %>%
+  summarise(
+    n = n()
+  )
+
+# Gráfico de barras por sexo 
+ggplot(sexo_dist, aes(x = SEXO, y = n, fill = SEXO)) +
+  geom_col() +
+  labs(
+    title = "Total de graduados por sexo",
+    x = "Sexo",
+    y = "Número de graduados"
+  ) +
+  theme_minimal() +
+  scale_fill_manual(values = paleta[2:3])
+```
+El gráfico presenta el total de graduados por sexo. Se observa que la mayoría de los egresados son mujeres, mientras que los hombres representan un menor número del total. 
+
+#### Distribución por sexo y área de conocimiento
+```{r}
+# Distribución de graduados por sexo y área
+sexo_area_dist <- Datos %>%
+  group_by(AREA_CONOCIMIENTO, SEXO) %>%
+  summarise(n = n()) %>%
+  ungroup()
+
+# Gráfico 
+ggplot(sexo_area_dist, aes(x = AREA_CONOCIMIENTO, y = n, fill = SEXO)) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Total de graduados por sexo y área de conocimiento",
+    x = "Área de conocimiento",
+    y = "Número de graduados"
+  ) +
+  theme_minimal() +
+  coord_flip() +
+  theme(axis.text.x = element_text(hjust = 1)) +
+  scale_fill_manual(values = paleta[2:3])
+```
+El gráfico que muestra el total de graduados por sexo y área de conocimiento evidencia diferencias significativas según la disciplina. En Recursos Naturales predominan las mujeres, mientras que en Ingeniería hay ligeramente más hombres. En Educación, la diferencia es muy marcada, con más de tres mil mujeres graduadas frente a aproximadamente mil hombres. En Derecho hay una ligera mayoría de mujeres. En Computación, predominan los hombres, mientras que en Ciencias Sociales, Ciencias Económicas y Ciencias de la Salud hay más del doble de mujeres que de hombres. En Ciencias Básicas y en Artes y Letras, la distribución es más equilibrada, aunque con una ligera mayoría de mujeres. En general, se observa que las mujeres superan en número a los hombres en la mayoría de las áreas de conocimiento.
+
+#### Distribución por edad
+```{r}
+# Crear grupo de edad
+Datos <- Datos %>%
+  mutate(
+    GRUPO_EDAD = case_when(
+      EDAD >= 17 & EDAD <= 20 ~ "17-20",
+      EDAD >= 21 & EDAD <= 24 ~ "21-24",
+      EDAD >= 25 & EDAD <= 29 ~ "25-29",
+      EDAD >= 30              ~ "30+",
+      TRUE ~ NA_character_
+    )
+  )
+
+# Distribución de graduados por grupo de edad
+edad_dist <- Datos %>%
+  filter(!is.na(GRUPO_EDAD)) %>%
+  group_by(GRUPO_EDAD) %>%
+  summarise(n = n()) %>%
+  arrange(desc(n))
+
+print(edad_dist)
+
+# Gráfico de barras
+ggplot(edad_dist, aes(x = GRUPO_EDAD, y = n, fill = GRUPO_EDAD)) +
+  geom_col() +
+  labs(
+    title = "Total de graduados por grupo de edad",
+    x = "Grupo de edad",
+    y = "Número de graduados"
+  ) +
+  theme_minimal() +
+  scale_fill_manual(values = paleta)
+
+# Estadísticos descriptivos
+summary(Datos$EDAD)
+```
+El gráfico que muestra el total de graduados por grupo de edad evidencia que la mayor concentración de egresados se encuentra en el rango de 25 a 29 años, seguido por el grupo de 21 a 24 años. Los graduados mayores de 30 años ocupan un tercer lugar en cantidad, mientras que el grupo de 17 a 20 años es el menos representado, con muy pocas personas. 
+
+#### Migrantes vs Nacionales
+```{r}
+# Totales por nacionalidad
+nat_ext <- Datos %>%
+  group_by(TIPO_NACIONALIDAD) %>%
+  summarise(n = n())
+
+# Gráfico
+ggplot(nat_ext, aes(x = TIPO_NACIONALIDAD, y = n, fill = TIPO_NACIONALIDAD)) +
+  geom_col() +
+  labs(
+    title = "Total de graduados: Nacionales vs Extranjeros",
+    x = "",
+    y = "Número de graduados"
+  ) +
+  theme_minimal() +
+  scale_fill_manual(values = paleta[2:3])
+```
+El gráfico evidencia que la gran mayoría son nacionales, alcanzando casi los 20.000 egresados. En contraste, los graduados extranjeros son muy pocos, prácticamente cercanos a cero. Esto indica que la participación de estudiantes extranjeros en las universidades públicas de Costa Rica es mínima frente a la de los estudiantes nacionales.
+
+#### Migrantes por universidad
+```{r}
+migrantes <- Datos %>%
+  filter(TIPO_NACIONALIDAD != "Nacional") %>%   # Solo migrantes
+  group_by(UNIVERSIDAD) %>%
+  summarise(
+    migrantes = n()
+  ) %>%
+  arrange(desc(migrantes))
+
+print(migrantes)
+
+ggplot(migrantes, aes(x = reorder(UNIVERSIDAD, migrantes), y = migrantes)) +
+  geom_col(fill = paleta[2]) +
+  coord_flip() +
+  labs(
+    title = "Cantidad de migrantes graduados por universidad",
+    x = "Universidad",
+    y = "Número de migrantes"
   ) +
   theme_minimal()
-```
-En este gráfico se observa que, tanto en grado como en posgrado, la mayoría de las personas graduadas se concentran en la GAM. En cambio, en el nivel de pregrado predominan quienes residen fuera de la GAM.
 
+```
+El gráfico evidencia que la Universidad Estatal a Distancia (UNED) concentra la mayor cantidad, con un poco menos de 120 personas. Le siguen la Universidad de Costa Rica (UCR) y la Universidad Nacional (UNA), con cifras muy similares, siendo ligeramente mayor la UCR. Posteriormente se ubica la Universidad Técnica Nacional (UTN), y finalmente el Tecnológico de Costa Rica (TEC), que presenta la menor cantidad de graduados migrantes. 
 
 ## 6. Distribución de las variables categóricas
 
@@ -275,10 +540,8 @@ Datos <- Datos %>%
   mutate(EDAD_outlier = if_else(EDAD < limite_inferior | EDAD > limite_superior,
                                 TRUE, FALSE))
 ```
-
 Usando el método de marcación, que consiste en crear una variable que indique si cada registro es un outlier según los límites definidos por el rango intercuartílico (IQR), resulta útil en la variable edad porque permite identificar fácilmente los valores fuera del rango esperado, facilita filtrar o segmentar los datos y resaltar los extremos en gráficos. Además, permite aplicar técnicas estadísticas de manera controlada, asegurando un análisis más preciso y reproducible.  
 No se aplicó ningún tratamiento para los valores faltantes, ya que en la tabla utilizada no existen registros con datos ausentes.
 
 ## 9. Referencias
 Consejo Nacional de Rectores. (2025, 12 de octubre). Datos Abiertos. CONARE. https://www.conare.ac.cr/transparencia/datos-abiertos/
-
