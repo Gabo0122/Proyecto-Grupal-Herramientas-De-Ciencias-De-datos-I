@@ -1,0 +1,30 @@
+---
+title: "Bitácora 1"
+format: html
+editor: visual
+---
+
+## Pregunta:
+
+¿Qué factores académicos, socio-demográficos y territoriales influyen en que los estudiantes matriculados en universidades estatales de Costa Rica logren graduarse, y cómo varían las tasas de graduación entre áreas de conocimiento, regiones y características del estudiantado?
+
+## Objeto de estudio:
+
+El objeto de estudio son los estudiantes de las universidades estatales de Costa Rica, analizados a partir de su proceso de matrícula y posterior graduación, considerando variables académicas (área de conocimiento, nivel académico, disciplina), socio-demográficas (sexo, edad, nacionalidad) y territoriales (provincia, cantón, zona urbano-rural, región de planificación). El interés está en comprender las relaciones, brechas y patrones entre quienes ingresan al sistema de educación superior estatal y quienes logran culminar sus estudios con éxito.
+
+## Teorías
+
+-   **Teoría del Capital Humano (Becker, 1964)**\
+    Plantea que la educación es una inversión que incrementa las habilidades y productividad de los individuos, lo cual justifica analizar las tasas de graduación como un indicador del retorno social y económico de las universidades estatales.
+
+    <https://www.camafu.org.mx/el-capital-humano/>
+
+-   **Teoría de la Deserción Universitaria (Tinto, 1975; 1993)**\
+    Explica la permanencia o abandono de los estudiantes a partir de factores académicos, sociales y personales. Fundamenta el análisis de brechas entre matrícula y graduación, considerando variables como región, género y área académica.
+
+    <https://steve.psy.gla.ac.uk/localed/tinto.html>
+
+-   **Teoría de la Equidad en la Educación (Bourdieu & Passeron, 1970)**\
+    Sostiene que el acceso y éxito en la educación superior están mediados por el capital cultural, económico y social de los estudiantes. Esta teoría apoya el análisis de desigualdades territoriales y socio-demográficas en las universidades estatales.
+
+    <https://archivo.revistas.ucr.ac.cr//index.php/sociales/article/view/49239>
