@@ -751,6 +751,135 @@ La visualización permitió identificar patrones difíciles de observar únicame
 
 ## Analisis y resultados de métodos estadísticos
 
+### Aplicación de los métodos estadísticos
+
+Se utilizan en la bitácora 2, a continuación se van a resumir:
+
+#### Medidas de tendencia central
+
+- Media de edad
+- mediana
+- moda
+
+#### Medidas de dispersión
+
+- Desviación estándar
+
+- Rango
+
+- Identificación de outliers mediante IQR.
+
+#### Métodos categóricos
+
+Frecuencias y proporciones por:
+
+- carrera
+
+- universidad
+
+- área de conocimiento
+
+- clasificación STEM
+
+- sexo
+
+- nacionalidad
+
+- provincia
+
+#### Visualización
+
+Se utilizaron gráficos:
+
+- Histograma de edad
+
+- Barras de STEM vs NO STEM
+
+- Barras por universidad
+
+- Barras por carrera
+
+- Comparaciones por sexo y otras variables categóricas
+
+### Presentación de resultados
+
+#### Edad de las personas graduadas
+
+- Media: aproximadamente 28 años.
+
+- Mediana: 26 años.
+
+Esto indica que la distribución está ligeramente sesgada hacia valores mayores.
+
+- Se detectaron outliers usando el método IQR, pero se mantuvieron porque forman parte natural del comportamiento del fenómeno.
+
+#### Distribución por universidades
+
+- La UCR y el TEC presentan los mayores números de graduados.
+
+- Las universidades pequeñas como la UNED y la UTN presentan valores menores debido a su estructura institucional y oferta académica.
+
+Este comportamiento coincide con el tamaño y antigüedad de las universidades.
+
+#### Carreras con más graduados
+
+Se observa una alta concentración en áreas como Administración, Informática, Educación y Enfermería.
+
+#### Clasificación STEM
+
+- Aproximadamente 1 de cada 3 graduados pertenece a áreas STEM.
+
+- El resto pertenece a Ciencias Sociales, Educación, Artes o Salud.
+
+Esto coincide con tendencias nacionales e internacionales donde las áreas STEM tienen menor matrícula relativa.
+
+### Análisis de los resultados
+
+#### Edad
+
+  La mayoría de personas se gradúan entre los 23 y 27 años, lo cual es consistente con la finalización de bachilleratos y licenciaturas en el tiempo esperado. La presencia de outliers (personas con más de 40–50 años) muestra que existe educación continua y oportunidades para adultos.
+
+#### Distribución por universidades
+
+La mayor presencia de graduados en UCR y TEC responde a:
+
+- su tamaño histórico
+
+- oferta académica más amplia
+
+- campus distribuidos territorialmente
+
+#### Carreras más frecuentes
+
+Carreras como Administración o Educación mantienen alta demanda debido a:
+
+- empleabilidad
+
+- oferta amplia
+
+- requisitos de mercado laboral nacional
+
+- Percepción de dificultades menores por su grado bajo de estudio de matemáticas avanzadas
+
+#### STEM
+
+El hecho de que solo un tercio sea STEM confirma una tendencia estructural:
+las áreas con mayor complejidad matemática suelen tener menor matrícula y graduación, tendencia que también se pudo analizar en el punto anterior.
+
+#### Dimensión territorial
+
+La desigualdad entre provincias refleja inequidades territoriales en acceso a educación superior. Siendo la GAM la que suele tener mayor acceso a educación superior.
+
+#### Sexo
+
+- La predominancia femenina en la graduación coincide con tendencias nacionales en que las mujeres presentan mayores tasas de finalización académica.
+
+- En STEM, persiste una brecha hacia la masculinidad.
+
+### Respuesta a la pregunta de investigación
+
+  Las personas graduadas en 2024 se caracterizan por ser mayoritariamente mujeres, con una edad promedio cercana a 28 años, concentradas en universidades como la UCR y el TEC. La mayor parte proviene de carreras no STEM, aunque un tercio pertenece a carreras de esta área. Territorialmente, la mayor concentración de graduados proviene de San José, mientras que las demás provincias muestran menor participación. Las carreras más frecuentes pertenecen a Ciencias Sociales, Educación y Salud; lo que refuerza las estadísticas vistas de las carreras STEM.
+
 ## Conclusiones
 
 ## Limitaciones
