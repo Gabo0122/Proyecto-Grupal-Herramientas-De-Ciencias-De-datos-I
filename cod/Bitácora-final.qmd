@@ -103,7 +103,7 @@ En esta sección se mostrarán las variables de estudio y qué representa cada u
 
 -   **Universidad:** Nombre de la institución de educación superior universitaria.
 
--   **GAM sede:** Clasificación de la ubicación de las sedes, si se encuentran dentro o fuera del Gran Área Metropolitana. El Observatorio Urbano de la Gran Área Metropolitana, más conocido como la OUGAM, construyó esta clasificación a partir de la información disponible en su momento; adicionalmente, se verificaron 11 en base al Sistema Nacional de Información Territorial.
+-   **GAM sede:** Clasificación de la ubicación de las sedes, si se encuentran dentro o fuera del Gran Área Metropolitana. El Observatorio Urbano de la Gran Área Metropolitana, más conocido como la OUGAM, construyó esta clasificación a partir de la información disponible en su momento; adicionalmente, se verificaron 11 con base en el Sistema Nacional de Información Territorial.
 
 -   **Sede universitaria:** Las sedes son núcleos universitarios, por medio de los cuales las universidades impulsan, coordinan y desarrollan programas en una región determinada de acuerdo con demandas y necesidades de desarrollo regional y nacional.
 
@@ -139,7 +139,7 @@ En esta sección se mostrarán las variables de estudio y qué representa cada u
 
 -   **Región de planificación de procedencia del graduado:** Es la clasificación geográfica del territorio nacional en regiones que realiza el Sistema Nacional de Planificación (SNP) del Ministerio de Planificación Nacional y Política Económica (MIDEPLAN) de Costa Rica. En Conare, dicha clasificación se realiza según la ubicación de procedencia del graduado.
 
--   **Clasificación de GAM y no GAM del estudiante:** Se clasifica la ubicación de las sedes, si se encuentran dentro o fuera del Gran Área Metropolitana. Esta clasificación se construyó a partir de la información que tenía disponible en su momento el Observatorio Urbano de la Gran Área Metropolitana (OUGAM); adicionalmente, se verificaron 11 en base al Sistema Nacional de Información Territorial.
+-   **Clasificación de GAM y no GAM del estudiante:** Se clasifica la ubicación de las sedes, si se encuentran dentro o fuera del Gran Área Metropolitana. Esta clasificación se construyó a partir de la información que tenía disponible en su momento el Observatorio Urbano de la Gran Área Metropolitana (OUGAM); adicionalmente, se verificaron 11 con base en el Sistema Nacional de Información Territorial.
 
 -   **Condición de nacionalidad del graduado:** Describe la condición de nacionalidad del graduado, según el país de procedencia reportado.
 
@@ -250,8 +250,24 @@ ggplot(Datos, aes(x = STEM_MICITT, fill = SEXO)) +
   ) +
   theme_minimal()
 ```
+#### Distribución de Edad según Clasificación STEM
+```{r}
+ggplot(Datos, aes(x = STEM_MICITT, y = EDAD, fill = STEM_MICITT)) +
+  geom_boxplot() +
+  labs(
+    title = "Distribución de Edad según Clasificacion STEM",
+    x = "Participación STEM",
+    y = "Edad"
+  ) +
+  scale_fill_manual(values = c("steelblue", "seagreen")) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(size = 14, face = "bold")
+  )
+```
 
-En el gráfico se observa que, en las carreras no STEM, la mayoría de las personas graduadas son mujeres, superando casi el doble de la cantidad de hombres graduados. En contraste, en las carreras STEM, aunque las cifras son más equilibradas, la cantidad de hombres graduados es mayor que la de mujeres.
+El siguiente gráfico muestra la distribución de edades al momento de graduarse según su pertenencia o no a carreras STEM, podemos observar que la distribución de las edades en las carreras STEM y no STEM resulta bastante similar aunque las carreras no STEM presentan una media un poco mas alta además de datos outliers más marcados
 
 #### Graduados por universidad según área de conocimiento
 
@@ -271,6 +287,7 @@ uni_area <- Datos %>%
   ungroup()
 
 paleta_expandida <- colorRampPalette(paleta)(length(unique(uni_area$AREA_CONOCIMIENTO)))
+
 # Función que expande los colores de una paleta que tiene pocos colores y para el gráfico se necesitan más
 
 ggplot(uni_area, aes(x = reorder(ABREVIACIÓN, n_graduados, sum), 
@@ -364,6 +381,29 @@ ggplot(gam_est_dist, aes(x = reorder(GAM_ESTUDIANTE, n), y = n, fill = GAM_ESTUD
 
 El gráfico evidencia que la cantidad de egresados dentro y fuera de la GAM es bastante similar. Aunque la GAM presenta un número ligeramente mayor de graduados, la diferencia es mínima, aproximadamente unas 200 personas o incluso menos, lo que indica que la residencia dentro o fuera de la región metropolitana no genera grandes disparidades en la cantidad de egresados.
 
+#### Distribucion de las edades segun GAM y no GAM 
+
+```{r}
+ggplot(
+  Datos %>% filter(GAM_ESTUDIANTE != "No aplica"),
+  aes(x = GAM_ESTUDIANTE, y = EDAD, fill = GAM_ESTUDIANTE)
+) +
+  geom_boxplot() +
+  labs(
+    title = "Distribución de Edad según Clasificación GAM",
+    x = "Pertenencia a la GAM",
+    y = "Edad"
+  ) +
+  scale_fill_manual(values = c("steelblue", "seagreen")) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(size = 14, face = "bold")
+  )
+  
+```
+En el siguiente gráfico de caja de bigotes observamos como se encuentra distribuida la edad de graduación de los estudiantes provenientes de afuera de la GAM presentan edades más bajas al momento de graduarse, además, posee datos más datos outliers pero esto posiblemente ocurre por sacar grados más altos de estudio
+
 #### Distribución de graduados según zona rural o urbana
 
 ```{r}
@@ -411,6 +451,26 @@ ggplot(sexo_dist, aes(x = SEXO, y = n, fill = SEXO)) +
 ```
 
 El gráfico presenta el total de graduados por sexo. Se observa que la mayoría de los egresados son mujeres, mientras que los hombres representan un menor número del total.
+
+#### Edad de graduación sexo 
+
+```{r}
+ggplot(Datos, aes(x= SEXO, y=EDAD, fill = SEXO)) +
+  geom_boxplot() +
+  labs(
+    title = "Distribución de Edad según Sexo",
+    x = "Sexo",
+    y = "Edad"
+  ) +
+  scale_fill_manual(values = c("steelblue", "seagreen")) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(size = 14, face = "bold")
+  )
+```
+
+En este gráfico donde vemos como se distribuyen las edades al graduarse según el sexo del individuo podemos concluir que no existe ninguna relación entre el sexo de la persona y su edad al momento de graduarse pues poseen la misma distribución
 
 #### Distribución por sexo y área de conocimiento
 
@@ -749,7 +809,7 @@ La visualización permitió identificar patrones difíciles de observar únicame
 
 - Elaboración de conclusiones y recomendaciones.
 
-## Analisis y resultados de métodos estadísticos
+## Análisis y resultados de métodos estadísticos
 
 ### Aplicación de los métodos estadísticos
 
