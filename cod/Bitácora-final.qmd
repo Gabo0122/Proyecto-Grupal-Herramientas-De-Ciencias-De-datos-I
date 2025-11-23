@@ -882,4 +882,20 @@ La desigualdad entre provincias refleja inequidades territoriales en acceso a ed
 
 ## Conclusiones
 
+### 1. La distribución territorial muestra patrones coherentes con la localización de las sedes universitarias
+
+  Las provincias del Valle Central (San José, Alajuela, Heredia y Cartago) presentan concentraciones de graduados alineadas con las universidades que tienen sus sedes centrales en ellas. La UCR domina en San José, la UNA en Heredia, la UTN en Alajuela y el TEC en Cartago. Por otro lado, la UNED exhibe la mayor dispersión geográfica debido a su modalidad virtual, y Limón es la provincia con la distribución más equilibrada entre instituciones, mientras que San José muestra la mayor desigualdad en preferencia institucional.
+  
+### 2. Las características sociodemográficas revelan un perfil de persona graduada que es mayoritariamente mujer, con una edad promedio cercana a los 28 años
+
+  El análisis estadístico mostró que la mediana de edad es de 26 años y la media 28 años, lo cual coincide con los tiempos esperados de graduación en bachillerato y licenciatura. Además, la predominancia de mujeres en la mayoría de áreas refleja una tendencia nacional de mayor permanencia y finalización académica femenina en la educación superior. La presencia de outliers en edad indica que los programas universitarios también están siendo aprovechados por población adulta, lo cual evidencia oportunidades de formación continua.
+  
+### 3. La distribución académica evidencia una fuerte concentración en áreas no STEM
+
+  Solamente alrededor de un tercio de las personas graduadas pertenece a áreas STEM, mientras que las disciplinas más numerosas corresponden a Ciencias Sociales, Educación y Salud. Aun así, las áreas STEM tienen un peso importante en universidades como el TEC y la UCR, lo que sugiere que, aunque no son las más masivas, sí aportan significativamente para el desarrollo científico y tecnológico del país.
+
 ## Limitaciones
+
+- Una de las mayores limitaciones fue el hecho de solo contar con los graduados de 2024, pues no se pudo realizar un análisis longitudinal mediante la comparación de los datos a través de los años, por lo que los resultados del análisis son dificilmente generalizables a una tendencia a largo plazo.
+
+- El no contar con edad de ingreso no permitió analizar totalmente las características de la edad de los egresados, pues no se conoce si entraron con edad mayor, realizaron interrupción de estudios, etc.
