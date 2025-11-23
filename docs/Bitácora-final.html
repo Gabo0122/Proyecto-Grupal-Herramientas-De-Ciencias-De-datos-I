@@ -3037,15 +3037,246 @@ No se aplicó ningún tratamiento para los valores faltantes, ya que en la tabla
 </section>
 <section id="marco-metodológico" class="level2">
 <h2 class="anchored" data-anchor-id="marco-metodológico">Marco metodológico</h2>
+<section id="introducción-del-marco-metodológico" class="level3">
+<h3 class="anchored" data-anchor-id="introducción-del-marco-metodológico">Introducción del marco metodológico</h3>
+<p>Se hará uso del lenguaje de programación R y el conjunto de librerías tidyverse para la creación de tablas y gráficos donde asociemos las características académicas, demográficas y territoriales de los estudiantes graduados universitarios en el año 2024. Para comenzar observaremos nuestros datos mediante gráficos para la observación de los datos y como se encuentran distribuidos con base en universidad, carreras, áreas de estudios luego buscaremos el relacionar variables en carreras de interés y observaremos relaciones utilizado principalmente gráficos de cajas de bigotes dado que nos ayudan a asociar los datos numéricos de la edad de graduación junto con variables del tipo categórico como su área de estudio y si es STEM o no</p>
+</section>
+<section id="enfoque-de-la-investigación" class="level3">
+<h3 class="anchored" data-anchor-id="enfoque-de-la-investigación">Enfoque de la investigación</h3>
+<p>La investigación tiene un enfoque cuantitativo descriptivo, pues se hace uso del análisis númerico y categórico del dataset de personas graduadas de universidades estatales durante el año 2024. El objetivo es caracterizar la población estudiada mediante métodos estadísticos tales como: identificar patrones relevantes y comparar grupos según atributos académicos, socio-demográficos y territoriales.</p>
+</section>
+<section id="diseño-de-investigación" class="level3">
+<h3 class="anchored" data-anchor-id="diseño-de-investigación">Diseño de investigación</h3>
+<p>La investigación tiene un diseño documental, pues se centra en el análisis de un conjunto de datos ya recolectados.</p>
+</section>
+<section id="población-y-muestra-de-estudio" class="level3">
+<h3 class="anchored" data-anchor-id="población-y-muestra-de-estudio">Población y muestra de estudio</h3>
+<section id="población-de-estudio" class="level4">
+<h4 class="anchored" data-anchor-id="población-de-estudio">Población de estudio</h4>
+<p>Todas las personas que obtuvieron un título universitario en universidades estatales de Costa Rica durante el año 2024.</p>
+</section>
+<section id="muestra-de-estudio" class="level4">
+<h4 class="anchored" data-anchor-id="muestra-de-estudio">Muestra de estudio</h4>
+<p>Se utiliza toda la base de datos, pues estos ya están en el grupo representativo del año 2024 de los estudiantes graduados de universidades estatales.</p>
+</section>
+</section>
+<section id="fuentes-de-información" class="level3">
+<h3 class="anchored" data-anchor-id="fuentes-de-información">Fuentes de información</h3>
+<p>La tabla de datos a utilizar es sobre los diplomas otorgados a estudiantes durante el lapso 2024 en el sector público y registra un total de 20 456 graduados entre las diferentes universidades públicas en Costa Rica, siendo las mencionadas: Universidad de Costa Rica, Universidad Nacional, Tecnológico de Costa Rica, Universidad Estatal a Distancia y Universidad Técnica Nacional. Esta base de datos fue suministrada por medio de las oficinas de registro de las universidades estatales durante el año anteriormente mencionado y distribuida por la División de Planificación Interuniversitaria del Consejo Nacional de Rectores, más conocido como la OPES-Conare <a href="https://www.conare.ac.cr/transparencia/datos-abiertos/">OPES-CONARE</a>.</p>
+</section>
+<section id="variables-del-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="variables-del-dataset">Variables del dataset</h3>
+<p>La tabla posee un total de 24 variables, siendo las cuales son: - sector universitario - universidad - GAM sede - sede Conare - región de planificación sede - carrera - grado académico - nivel académico - área de conocimiento - disciplina - área UNESCO - disciplina UNESCO - STEM MICITT - sexo - edad Entre otras, ya mencionadas en la bitácora 2.</p>
+</section>
+<section id="procesamiento-y-limpieza-de-datos" class="level3">
+<h3 class="anchored" data-anchor-id="procesamiento-y-limpieza-de-datos">Procesamiento y limpieza de datos</h3>
+<section id="revisión-inicial" class="level4">
+<h4 class="anchored" data-anchor-id="revisión-inicial">Revisión inicial</h4>
+<p>Se hizo una previsualización inicial de los datos con funciones de R, como head y view.</p>
+</section>
+<section id="identificar-tipos-de-variables" class="level4">
+<h4 class="anchored" data-anchor-id="identificar-tipos-de-variables">identificar tipos de variables</h4>
+<p>Se usaron funciones tales como, sapply, para identificar los tipos de dato y definir así los métodos estadísticos a utilizar.</p>
+</section>
+<section id="tratamiento-de-nas-y-outliers" class="level4">
+<h4 class="anchored" data-anchor-id="tratamiento-de-nas-y-outliers">Tratamiento de NA’s y outliers</h4>
+<ul>
+<li>No había NA’s.</li>
+<li>Para los outliers en edad se utilizó el método IQR para así poder marcarlos.</li>
+</ul>
+</section>
+</section>
+<section id="métodos-estadísticos" class="level3">
+<h3 class="anchored" data-anchor-id="métodos-estadísticos">Métodos estadísticos</h3>
+<p>Los anteriormente mencionados</p>
+<section id="métodos-cuantitativos" class="level4">
+<h4 class="anchored" data-anchor-id="métodos-cuantitativos">Métodos cuantitativos</h4>
+<ul>
+<li><p>Media: para obtener promedios de edad y promedios por grupos.</p></li>
+<li><p>Mediana: para describir el valor central de las distribuciones.</p></li>
+<li><p>Desviación estándar: para evaluar la dispersión en variables numéricas.</p></li>
+<li><p>Rango: para identificar mínimos y máximos.</p></li>
+</ul>
+</section>
+<section id="métodos-categóricos" class="level4">
+<h4 class="anchored" data-anchor-id="métodos-categóricos">Métodos categóricos</h4>
+<ul>
+<li><p>Moda: para identificar las categorías más frecuentes (universidad, carrera, área de conocimiento).</p></li>
+<li><p>Tablas de frecuencia y proporciones generadas mediante group_by y summarise.</p></li>
+</ul>
+</section>
+<section id="métodos-mixtos" class="level4">
+<h4 class="anchored" data-anchor-id="métodos-mixtos">Métodos mixtos</h4>
+<ul>
+<li><p>Se emplearon gráficos para relacionar variables numéricas y categóricas:</p></li>
+<li><p>Histogramas (edad).</p></li>
+<li><p>Gráficos de barras (universidades, STEM vs No STEM, sexo).</p></li>
+<li><p>Diagramas comparativos por grupos académicos y territoriales.</p></li>
+</ul>
+<p>La visualización permitió identificar patrones difíciles de observar únicamente con medidas numéricas.</p>
+</section>
+</section>
+<section id="procedimiento-del-análisis" class="level3">
+<h3 class="anchored" data-anchor-id="procedimiento-del-análisis">Procedimiento del análisis</h3>
+<ul>
+<li><p>Importación de datos.</p></li>
+<li><p>Vista preliminar de datos y variables.</p></li>
+<li><p>Clasificación y descripción de variables.</p></li>
+<li><p>Detección y marcación de outliers.</p></li>
+<li><p>Aplicación de métodos estadísticos.</p></li>
+<li><p>Construcción de gráficos.</p></li>
+<li><p>Interpretación de los resultados.</p></li>
+<li><p>Elaboración de conclusiones y recomendaciones.</p></li>
+</ul>
+</section>
 </section>
 <section id="analisis-y-resultados-de-métodos-estadísticos" class="level2">
 <h2 class="anchored" data-anchor-id="analisis-y-resultados-de-métodos-estadísticos">Analisis y resultados de métodos estadísticos</h2>
+<section id="aplicación-de-los-métodos-estadísticos" class="level3">
+<h3 class="anchored" data-anchor-id="aplicación-de-los-métodos-estadísticos">Aplicación de los métodos estadísticos</h3>
+<p>Se utilizan en la bitácora 2, a continuación se van a resumir:</p>
+<section id="medidas-de-tendencia-central" class="level4">
+<h4 class="anchored" data-anchor-id="medidas-de-tendencia-central">Medidas de tendencia central</h4>
+<ul>
+<li>Media de edad</li>
+<li>mediana</li>
+<li>moda</li>
+</ul>
+</section>
+<section id="medidas-de-dispersión" class="level4">
+<h4 class="anchored" data-anchor-id="medidas-de-dispersión">Medidas de dispersión</h4>
+<ul>
+<li><p>Desviación estándar</p></li>
+<li><p>Rango</p></li>
+<li><p>Identificación de outliers mediante IQR.</p></li>
+</ul>
+</section>
+<section id="métodos-categóricos-1" class="level4">
+<h4 class="anchored" data-anchor-id="métodos-categóricos-1">Métodos categóricos</h4>
+<p>Frecuencias y proporciones por:</p>
+<ul>
+<li><p>carrera</p></li>
+<li><p>universidad</p></li>
+<li><p>área de conocimiento</p></li>
+<li><p>clasificación STEM</p></li>
+<li><p>sexo</p></li>
+<li><p>nacionalidad</p></li>
+<li><p>provincia</p></li>
+</ul>
+</section>
+<section id="visualización" class="level4">
+<h4 class="anchored" data-anchor-id="visualización">Visualización</h4>
+<p>Se utilizaron gráficos:</p>
+<ul>
+<li><p>Histograma de edad</p></li>
+<li><p>Barras de STEM vs NO STEM</p></li>
+<li><p>Barras por universidad</p></li>
+<li><p>Barras por carrera</p></li>
+<li><p>Comparaciones por sexo y otras variables categóricas</p></li>
+</ul>
+</section>
+</section>
+<section id="presentación-de-resultados" class="level3">
+<h3 class="anchored" data-anchor-id="presentación-de-resultados">Presentación de resultados</h3>
+<section id="edad-de-las-personas-graduadas" class="level4">
+<h4 class="anchored" data-anchor-id="edad-de-las-personas-graduadas">Edad de las personas graduadas</h4>
+<ul>
+<li><p>Media: aproximadamente 28 años.</p></li>
+<li><p>Mediana: 26 años.</p></li>
+</ul>
+<p>Esto indica que la distribución está ligeramente sesgada hacia valores mayores.</p>
+<ul>
+<li>Se detectaron outliers usando el método IQR, pero se mantuvieron porque forman parte natural del comportamiento del fenómeno.</li>
+</ul>
+</section>
+<section id="distribución-por-universidades" class="level4">
+<h4 class="anchored" data-anchor-id="distribución-por-universidades">Distribución por universidades</h4>
+<ul>
+<li><p>La UCR y el TEC presentan los mayores números de graduados.</p></li>
+<li><p>Las universidades pequeñas como la UNED y la UTN presentan valores menores debido a su estructura institucional y oferta académica.</p></li>
+</ul>
+<p>Este comportamiento coincide con el tamaño y antigüedad de las universidades.</p>
+</section>
+<section id="carreras-con-más-graduados" class="level4">
+<h4 class="anchored" data-anchor-id="carreras-con-más-graduados">Carreras con más graduados</h4>
+<p>Se observa una alta concentración en áreas como Administración, Informática, Educación y Enfermería.</p>
+</section>
+<section id="clasificación-stem" class="level4">
+<h4 class="anchored" data-anchor-id="clasificación-stem">Clasificación STEM</h4>
+<ul>
+<li><p>Aproximadamente 1 de cada 3 graduados pertenece a áreas STEM.</p></li>
+<li><p>El resto pertenece a Ciencias Sociales, Educación, Artes o Salud.</p></li>
+</ul>
+<p>Esto coincide con tendencias nacionales e internacionales donde las áreas STEM tienen menor matrícula relativa.</p>
+</section>
+</section>
+<section id="análisis-de-los-resultados" class="level3">
+<h3 class="anchored" data-anchor-id="análisis-de-los-resultados">Análisis de los resultados</h3>
+<section id="edad" class="level4">
+<h4 class="anchored" data-anchor-id="edad">Edad</h4>
+<p>La mayoría de personas se gradúan entre los 23 y 27 años, lo cual es consistente con la finalización de bachilleratos y licenciaturas en el tiempo esperado. La presencia de outliers (personas con más de 40–50 años) muestra que existe educación continua y oportunidades para adultos.</p>
+</section>
+<section id="distribución-por-universidades-1" class="level4">
+<h4 class="anchored" data-anchor-id="distribución-por-universidades-1">Distribución por universidades</h4>
+<p>La mayor presencia de graduados en UCR y TEC responde a:</p>
+<ul>
+<li><p>su tamaño histórico</p></li>
+<li><p>oferta académica más amplia</p></li>
+<li><p>campus distribuidos territorialmente</p></li>
+</ul>
+</section>
+<section id="carreras-más-frecuentes" class="level4">
+<h4 class="anchored" data-anchor-id="carreras-más-frecuentes">Carreras más frecuentes</h4>
+<p>Carreras como Administración o Educación mantienen alta demanda debido a:</p>
+<ul>
+<li><p>empleabilidad</p></li>
+<li><p>oferta amplia</p></li>
+<li><p>requisitos de mercado laboral nacional</p></li>
+<li><p>Percepción de dificultades menores por su grado bajo de estudio de matemáticas avanzadas</p></li>
+</ul>
+</section>
+<section id="stem" class="level4">
+<h4 class="anchored" data-anchor-id="stem">STEM</h4>
+<p>El hecho de que solo un tercio sea STEM confirma una tendencia estructural: las áreas con mayor complejidad matemática suelen tener menor matrícula y graduación, tendencia que también se pudo analizar en el punto anterior.</p>
+</section>
+<section id="dimensión-territorial" class="level4">
+<h4 class="anchored" data-anchor-id="dimensión-territorial">Dimensión territorial</h4>
+<p>La desigualdad entre provincias refleja inequidades territoriales en acceso a educación superior. Siendo la GAM la que suele tener mayor acceso a educación superior.</p>
+</section>
+<section id="sexo" class="level4">
+<h4 class="anchored" data-anchor-id="sexo">Sexo</h4>
+<ul>
+<li><p>La predominancia femenina en la graduación coincide con tendencias nacionales en que las mujeres presentan mayores tasas de finalización académica.</p></li>
+<li><p>En STEM, persiste una brecha hacia la masculinidad.</p></li>
+</ul>
+</section>
+</section>
+<section id="respuesta-a-la-pregunta-de-investigación" class="level3">
+<h3 class="anchored" data-anchor-id="respuesta-a-la-pregunta-de-investigación">Respuesta a la pregunta de investigación</h3>
+<p>Las personas graduadas en 2024 se caracterizan por ser mayoritariamente mujeres, con una edad promedio cercana a 28 años, concentradas en universidades como la UCR y el TEC. La mayor parte proviene de carreras no STEM, aunque un tercio pertenece a carreras de esta área. Territorialmente, la mayor concentración de graduados proviene de San José, mientras que las demás provincias muestran menor participación. Las carreras más frecuentes pertenecen a Ciencias Sociales, Educación y Salud; lo que refuerza las estadísticas vistas de las carreras STEM.</p>
+</section>
 </section>
 <section id="conclusiones" class="level2">
 <h2 class="anchored" data-anchor-id="conclusiones">Conclusiones</h2>
+<section id="la-distribución-territorial-muestra-patrones-coherentes-con-la-localización-de-las-sedes-universitarias" class="level3">
+<h3 class="anchored" data-anchor-id="la-distribución-territorial-muestra-patrones-coherentes-con-la-localización-de-las-sedes-universitarias">1. La distribución territorial muestra patrones coherentes con la localización de las sedes universitarias</h3>
+<p>Las provincias del Valle Central (San José, Alajuela, Heredia y Cartago) presentan concentraciones de graduados alineadas con las universidades que tienen sus sedes centrales en ellas. La UCR domina en San José, la UNA en Heredia, la UTN en Alajuela y el TEC en Cartago. Por otro lado, la UNED exhibe la mayor dispersión geográfica debido a su modalidad virtual, y Limón es la provincia con la distribución más equilibrada entre instituciones, mientras que San José muestra la mayor desigualdad en preferencia institucional.</p>
+</section>
+<section id="las-características-sociodemográficas-revelan-un-perfil-de-persona-graduada-que-es-mayoritariamente-mujer-con-una-edad-promedio-cercana-a-los-28-años" class="level3">
+<h3 class="anchored" data-anchor-id="las-características-sociodemográficas-revelan-un-perfil-de-persona-graduada-que-es-mayoritariamente-mujer-con-una-edad-promedio-cercana-a-los-28-años">2. Las características sociodemográficas revelan un perfil de persona graduada que es mayoritariamente mujer, con una edad promedio cercana a los 28 años</h3>
+<p>El análisis estadístico mostró que la mediana de edad es de 26 años y la media 28 años, lo cual coincide con los tiempos esperados de graduación en bachillerato y licenciatura. Además, la predominancia de mujeres en la mayoría de áreas refleja una tendencia nacional de mayor permanencia y finalización académica femenina en la educación superior. La presencia de outliers en edad indica que los programas universitarios también están siendo aprovechados por población adulta, lo cual evidencia oportunidades de formación continua.</p>
+</section>
+<section id="la-distribución-académica-evidencia-una-fuerte-concentración-en-áreas-no-stem" class="level3">
+<h3 class="anchored" data-anchor-id="la-distribución-académica-evidencia-una-fuerte-concentración-en-áreas-no-stem">3. La distribución académica evidencia una fuerte concentración en áreas no STEM</h3>
+<p>Solamente alrededor de un tercio de las personas graduadas pertenece a áreas STEM, mientras que las disciplinas más numerosas corresponden a Ciencias Sociales, Educación y Salud. Aun así, las áreas STEM tienen un peso importante en universidades como el TEC y la UCR, lo que sugiere que, aunque no son las más masivas, sí aportan significativamente para el desarrollo científico y tecnológico del país.</p>
+</section>
 </section>
 <section id="limitaciones" class="level2">
 <h2 class="anchored" data-anchor-id="limitaciones">Limitaciones</h2>
+<ul>
+<li><p>Una de las mayores limitaciones fue el hecho de solo contar con los graduados de 2024, pues no se pudo realizar un análisis longitudinal mediante la comparación de los datos a través de los años, por lo que los resultados del análisis son dificilmente generalizables a una tendencia a largo plazo.</p></li>
+<li><p>El no contar con edad de ingreso no permitió analizar totalmente las características de la edad de los egresados, pues no se conoce si entraron con edad mayor, realizaron interrupción de estudios, etc.</p></li>
+</ul>
 </section>
 </section>
 
