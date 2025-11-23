@@ -16,7 +16,7 @@ library(tidyverse)
 library(readxl)
 paleta <- c("#1F3A61", "#3A6A8D", "#5CB4D1", "#F6DF60", "#FAA700")
 
-Datos<-read_excel("datos_diplomas_sector_estatal_2024.xlsx")
+Datos<-read_excel("../data/datos_diplomas_sector_estatal_2024.xlsx")
 
 Datos <- Datos %>%
   mutate(

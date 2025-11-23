@@ -11,6 +11,31 @@ format:
     self-contained: true
 ---
 
+# Carga de librerías y dataset
+
+```{r}
+library(tidyverse)
+library(readxl)
+paleta <- c("#1F3A61", "#3A6A8D", "#5CB4D1", "#F6DF60", "#FAA700")
+
+Datos<-read_excel("../data/datos_diplomas_sector_estatal_2024.xlsx")
+
+Datos <- Datos %>%
+  mutate(
+    ABREVIACIÓN = case_when(
+      UNIVERSIDAD == "Universidad de Costa Rica" ~ "UCR",
+      UNIVERSIDAD == "Universidad Nacional" ~ "UNA",
+      UNIVERSIDAD == "Tecnológico de Costa Rica" ~ "TEC",
+      UNIVERSIDAD == "Universidad Estatal a Distancia" ~ "UNED",
+      UNIVERSIDAD == "Universidad Técnica Nacional" ~ "UTN",
+      TRUE~"Otra"
+    )
+  )
+table(Datos$ABREVIACIÓN)
+
+view(Datos)
+```
+
 # Bitácora 1
 
 ## Pregunta:
@@ -37,31 +62,8 @@ El objeto de estudio son los estudiantes de las universidades estatales de Costa
     Sostiene que el acceso y éxito en la educación superior están mediados por el capital cultural, económico y social de los estudiantes. Esta teoría apoya el análisis de desigualdades territoriales y socio-demográficas en las universidades estatales.
 
     <https://archivo.revistas.ucr.ac.cr//index.php/sociales/article/view/49239>
-    
+
 # Bitácora 2
-
-```{r}
-library(tidyverse)
-library(readxl)
-paleta <- c("#1F3A61", "#3A6A8D", "#5CB4D1", "#F6DF60", "#FAA700")
-
-Datos<-read_excel("datos_diplomas_sector_estatal_2024.xlsx")
-
-Datos <- Datos %>%
-  mutate(
-    ABREVIACIÓN = case_when(
-      UNIVERSIDAD == "Universidad de Costa Rica" ~ "UCR",
-      UNIVERSIDAD == "Universidad Nacional" ~ "UNA",
-      UNIVERSIDAD == "Tecnológico de Costa Rica" ~ "TEC",
-      UNIVERSIDAD == "Universidad Estatal a Distancia" ~ "UNED",
-      UNIVERSIDAD == "Universidad Técnica Nacional" ~ "UTN",
-      TRUE~"Otra"
-    )
-  )
-table(Datos$ABREVIACIÓN)
-
-view(Datos)
-```
 
 ## 1. Identificación de los elementos del conjunto de datos
 
@@ -70,6 +72,7 @@ view(Datos)
 La tabla de datos a utilizar es sobre los diplomas otorgados a estudiantes durante el lapso 2024 en el sector público y registra un total de 20 456 graduados entre las diferentes universidades públicas en Costa Rica, siendo las mencionadas: Universidad de Costa Rica, Universidad Nacional, Tecnológico de Costa Rica, Universidad Estatal a Distancia y Universidad Técnica Nacional. Esta base de datos fue suministrada por medio de las oficinas de registro de las universidades estatales durante el año anteriormente mencionado y distribuida por la División de Planificación Interuniversitaria del Consejo Nacional de Rectores, más conocido como la OPES-Conare [OPES-CONARE](https://www.conare.ac.cr/transparencia/datos-abiertos/). Considerando que se establece un año fijo en la tabla, se comparten otras variables, siendo un total de 24 que la acompañan, las cuales son: sector universitario, universidad, GAM sede, sede Conare, región de planificación sede, carrera, grado académico, nivel académico, área de conocimiento, disciplina, área UNESCO, disciplina UNESCO, STEM MICITT, sexo, edad, provincia graduado, cantón graduado, zona de urbanización graduado, zona urbano-rural graduado, región de planificación graduado, GAM estudiante, tipo nacionalidad y continente. Poseer disponibilidad sobre varios datos da entrada a una investigación vasta sobre las diferentes áreas de interés y brinda información valiosa acerca de los procedentes durante el periodo correspondiente.
 
 Tipo de dato
+
 ```{r}
 tipos <- tibble(
   columna = names(Datos),
@@ -94,53 +97,53 @@ Cada diploma dado a una persona que estudió en el sector estatal y completó su
 
 En esta sección se mostrarán las variables de estudio y qué representa cada una de ellas en la tabla de datos acorde a [OPES-CONARE](https://www.conare.ac.cr/transparencia/datos-abiertos/):
 
-- **Año:** Año de graduación del estudiante (sujeto a 2024).
+-   **Año:** Año de graduación del estudiante (sujeto a 2024).
 
-- **Sector universitario:** Distinción que se hace entre las instituciones de educación superior; diferencia entre si es estatal o privada (sujeto a estatal).
+-   **Sector universitario:** Distinción que se hace entre las instituciones de educación superior; diferencia entre si es estatal o privada (sujeto a estatal).
 
-- **Universidad:** Nombre de la institución de educación superior universitaria.
+-   **Universidad:** Nombre de la institución de educación superior universitaria.
 
-- **GAM sede:** Clasificación de la ubicación de las sedes, si se encuentran dentro o fuera del Gran Área Metropolitana. El Observatorio Urbano de la Gran Área Metropolitana, más conocido como la OUGAM, construyó esta clasificación a partir de la información disponible en su momento; adicionalmente, se verificaron 11 en base al Sistema Nacional de Información Territorial.
+-   **GAM sede:** Clasificación de la ubicación de las sedes, si se encuentran dentro o fuera del Gran Área Metropolitana. El Observatorio Urbano de la Gran Área Metropolitana, más conocido como la OUGAM, construyó esta clasificación a partir de la información disponible en su momento; adicionalmente, se verificaron 11 en base al Sistema Nacional de Información Territorial.
 
-- **Sede universitaria:** Las sedes son núcleos universitarios, por medio de los cuales las universidades impulsan, coordinan y desarrollan programas en una región determinada de acuerdo con demandas y necesidades de desarrollo regional y nacional.
+-   **Sede universitaria:** Las sedes son núcleos universitarios, por medio de los cuales las universidades impulsan, coordinan y desarrollan programas en una región determinada de acuerdo con demandas y necesidades de desarrollo regional y nacional.
 
-- **Región de planificación regional de la sede:** Clasificación geográfica del territorio nacional en regiones que realiza el Sistema Nacional de Planificación (SNP) y Política Económica (MIDEPLAN) de Costa Rica. En Conare, dicha clasificación se realiza según la ubicación de la sede universitaria.
+-   **Región de planificación regional de la sede:** Clasificación geográfica del territorio nacional en regiones que realiza el Sistema Nacional de Planificación (SNP) y Política Económica (MIDEPLAN) de Costa Rica. En Conare, dicha clasificación se realiza según la ubicación de la sede universitaria.
 
-- **Carrera universitaria:** Conjunto de actividades y cursos ofrecidos por una institución superior en un determinado campo de conocimientos, el cual ha sido organizado por medio de un plan de estudios y que conduce a la obtención de un grado académico.
+-   **Carrera universitaria:** Conjunto de actividades y cursos ofrecidos por una institución superior en un determinado campo de conocimientos, el cual ha sido organizado por medio de un plan de estudios y que conduce a la obtención de un grado académico.
 
-- **Grado académico:** Es el elemento del diploma que designa el valor académico de los conocimientos y habilidades del individuo dentro de una escala creada por las instituciones de educación superior, para indicar la profundidad y amplitud de esos conocimientos y habilidades en cuanto estos puedan ser garantizados por el diploma.
+-   **Grado académico:** Es el elemento del diploma que designa el valor académico de los conocimientos y habilidades del individuo dentro de una escala creada por las instituciones de educación superior, para indicar la profundidad y amplitud de esos conocimientos y habilidades en cuanto estos puedan ser garantizados por el diploma.
 
-- **Nivel académico:** Agrupación de distintos grados académicos, de acuerdo con la profundidad y amplitud de los conocimientos.
+-   **Nivel académico:** Agrupación de distintos grados académicos, de acuerdo con la profundidad y amplitud de los conocimientos.
 
-- **Área del conocimiento (según clasificación Conare):** Agrupación de disciplinas con cierto grado de afinidad, según la clasificación realizada por las divisiones de Planificación Interuniversitaria y Académica de la OPES-Conare.
+-   **Área del conocimiento (según clasificación Conare):** Agrupación de disciplinas con cierto grado de afinidad, según la clasificación realizada por las divisiones de Planificación Interuniversitaria y Académica de la OPES-Conare.
 
-- **Disciplina (según clasificación Conare):** Es la agrupación de carreras académicas que, por su afinidad, son susceptibles de agruparse en una misma disciplina según su contenido y el mercado laboral.
+-   **Disciplina (según clasificación Conare):** Es la agrupación de carreras académicas que, por su afinidad, son susceptibles de agruparse en una misma disciplina según su contenido y el mercado laboral.
 
-- **Área UNESCO:** Organización de los programas educativos y las cualificaciones correspondientes por niveles y ámbitos de educación, según la clasificación de la UNESCO.
+-   **Área UNESCO:** Organización de los programas educativos y las cualificaciones correspondientes por niveles y ámbitos de educación, según la clasificación de la UNESCO.
 
-- **Disciplina UNESCO:** Agrupación de carreras académicas que, por su afinidad, son susceptibles de agruparse en una misma disciplina, según la clasificación de la UNESCO.
+-   **Disciplina UNESCO:** Agrupación de carreras académicas que, por su afinidad, son susceptibles de agruparse en una misma disciplina, según la clasificación de la UNESCO.
 
-- **Clasificación STEM:** Clasificación utilizada por el Ministerio de Ciencia, Tecnología y Telecomunicaciones de Costa Rica (MICITT), que se utiliza para agrupar a las cuatro grandes áreas de conocimiento en las que trabajan científicos e ingenieros. El término STEM es el acrónimo de los términos en inglés Science, Technology, Engineering and Mathematics (Ciencia, Tecnología, Ingeniería y Matemáticas). La carrera que cursa el estudiante se clasifica según esta definición.
+-   **Clasificación STEM:** Clasificación utilizada por el Ministerio de Ciencia, Tecnología y Telecomunicaciones de Costa Rica (MICITT), que se utiliza para agrupar a las cuatro grandes áreas de conocimiento en las que trabajan científicos e ingenieros. El término STEM es el acrónimo de los términos en inglés Science, Technology, Engineering and Mathematics (Ciencia, Tecnología, Ingeniería y Matemáticas). La carrera que cursa el estudiante se clasifica según esta definición.
 
-- **Sexo:** Es una variable biológica y genética que divide a los seres humanos en dos posibilidades solamente.
+-   **Sexo:** Es una variable biológica y genética que divide a los seres humanos en dos posibilidades solamente.
 
-- **Edad:** Años transcurridos desde el nacimiento de la persona hasta el año de registro de la graduación.
+-   **Edad:** Años transcurridos desde el nacimiento de la persona hasta el año de registro de la graduación.
 
-- **Provincia de procedencia del graduado:** Nombre de la provincia en la que indicó el graduado habitar. Según el Decreto Ejecutivo N.° 40184-MGP, División Territorial Administrativa de la República de Costa Rica.
+-   **Provincia de procedencia del graduado:** Nombre de la provincia en la que indicó el graduado habitar. Según el Decreto Ejecutivo N.° 40184-MGP, División Territorial Administrativa de la República de Costa Rica.
 
-- **Cantón de procedencia del graduado:** Es el nombre del cantón en el que indicó el graduado habitar. La distribución de cantones y distritos de Costa Rica se establece por el Decreto Ejecutivo N.° 40184-MGP del 9 de enero de 2017, en la publicación de la División Territorial Administrativa de Costa Rica. Adicionalmente, se actualiza la base División Territorial Administrativa, 2022 del Sistema Nacional de Información Territorial (SNIT).
+-   **Cantón de procedencia del graduado:** Es el nombre del cantón en el que indicó el graduado habitar. La distribución de cantones y distritos de Costa Rica se establece por el Decreto Ejecutivo N.° 40184-MGP del 9 de enero de 2017, en la publicación de la División Territorial Administrativa de Costa Rica. Adicionalmente, se actualiza la base División Territorial Administrativa, 2022 del Sistema Nacional de Información Territorial (SNIT).
 
-- **Zona de urbanización del graduado:** Es una clasificación geográfica del territorio nacional que utiliza un índice elaborado por el Instituto Nacional de Estadística y Censos (INEC), que está relacionado al grado de urbanización en cuatro categorías, según el distrito de procedencia del graduado.
+-   **Zona de urbanización del graduado:** Es una clasificación geográfica del territorio nacional que utiliza un índice elaborado por el Instituto Nacional de Estadística y Censos (INEC), que está relacionado al grado de urbanización en cuatro categorías, según el distrito de procedencia del graduado.
 
-- **Zona urbano-rural de procedencia del graduado:** Es una clasificación geográfica del territorio nacional en dos grandes categorías, basada en el Censo Nacional de Población y Vivienda (2011) del Instituto Nacional de Estadística y Censos (INEC), según el distrito de procedencia del graduado.
+-   **Zona urbano-rural de procedencia del graduado:** Es una clasificación geográfica del territorio nacional en dos grandes categorías, basada en el Censo Nacional de Población y Vivienda (2011) del Instituto Nacional de Estadística y Censos (INEC), según el distrito de procedencia del graduado.
 
-- **Región de planificación de procedencia del graduado:** Es la clasificación geográfica del territorio nacional en regiones que realiza el Sistema Nacional de Planificación (SNP) del Ministerio de Planificación Nacional y Política Económica (MIDEPLAN) de Costa Rica. En Conare, dicha clasificación se realiza según la ubicación de procedencia del graduado.
+-   **Región de planificación de procedencia del graduado:** Es la clasificación geográfica del territorio nacional en regiones que realiza el Sistema Nacional de Planificación (SNP) del Ministerio de Planificación Nacional y Política Económica (MIDEPLAN) de Costa Rica. En Conare, dicha clasificación se realiza según la ubicación de procedencia del graduado.
 
-- **Clasificación de GAM y no GAM del estudiante:** Se clasifica la ubicación de las sedes, si se encuentran dentro o fuera del Gran Área Metropolitana. Esta clasificación se construyó a partir de la información que tenía disponible en su momento el Observatorio Urbano de la Gran Área Metropolitana (OUGAM); adicionalmente, se verificaron 11 en base al Sistema Nacional de Información Territorial.
+-   **Clasificación de GAM y no GAM del estudiante:** Se clasifica la ubicación de las sedes, si se encuentran dentro o fuera del Gran Área Metropolitana. Esta clasificación se construyó a partir de la información que tenía disponible en su momento el Observatorio Urbano de la Gran Área Metropolitana (OUGAM); adicionalmente, se verificaron 11 en base al Sistema Nacional de Información Territorial.
 
-- **Condición de nacionalidad del graduado:** Describe la condición de nacionalidad del graduado, según el país de procedencia reportado.
+-   **Condición de nacionalidad del graduado:** Describe la condición de nacionalidad del graduado, según el país de procedencia reportado.
 
-- **Continente de procedencia del graduado:** En función del país reportado por el graduado, se asocia éste al continente respectivo.
+-   **Continente de procedencia del graduado:** En función del país reportado por el graduado, se asocia éste al continente respectivo.
 
 ## 2. Visualización inicial de los datos
 
@@ -148,18 +151,19 @@ En esta sección se mostrarán las variables de estudio y qué representa cada u
 print(head(Datos, 5))
 ```
 
-## 3. Resumen estadístico de las variables cuantitativas  
+## 3. Resumen estadístico de las variables cuantitativas
 
 ```{r}
 resumen <- summary(Datos[sapply(Datos, is.numeric)]) 
 print(resumen)
 ```
-Los datos muestran que todos los registros corresponden al año 2024 y que la mayoría de los graduados son adultos jóvenes. La edad mínima es de 19 y la máxima de 76, con una media de 28.49 años y una mediana de 26, lo que indica una ligera tendencia hacia edades mayores debido a algunos casos más altos.
 
+Los datos muestran que todos los registros corresponden al año 2024 y que la mayoría de los graduados son adultos jóvenes. La edad mínima es de 19 y la máxima de 76, con una media de 28.49 años y una mediana de 26, lo que indica una ligera tendencia hacia edades mayores debido a algunos casos más altos.
 
 ## 4. Distribución de las variables cuantitativas
 
 ### Distribución por edad
+
 ```{r}
 ggplot(data = Datos, aes(x = EDAD)) +
   geom_histogram(
@@ -175,6 +179,7 @@ ggplot(data = Datos, aes(x = EDAD)) +
   ) +
   theme_minimal()
 ```
+
 En el gráfico se observa que la mayor concentración de personas se encuentra entre los 20 y los 30 años. A partir de los 30, la distribución comienza a disminuir progresivamente conforme aumenta la edad.
 
 ## 5. Relación entre las variables
@@ -182,6 +187,7 @@ En el gráfico se observa que la mayor concentración de personas se encuentra e
 ### Comparación académica
 
 #### Top 10 de carreras con más graduados
+
 ```{r}
 # Distribución de graduados por carrera
 graduados_carrera <- Datos %>%
@@ -205,9 +211,11 @@ ggplot(top10, aes(x = reorder(CARRERA, n_graduados),
        y = "Graduados") +
   theme_minimal()
 ```
+
 El gráfico muestra los 10 carreras con mayor cantidad de graduados. Se observa que la carrera con mayor número de egresados es Administración de Empresas, con un poco menos de 1.250 graduados. Le sigue Educación General Básica del primer y segundo ciclo, con aproximadamente 900 egresados. La carrera con menor número de graduados, pero aún dentro del top, es Administración con énfasis en Gestión Financiera, con cerca de 250 graduados.
 
 #### Proporción de graduados STEM
+
 ```{r}
 # Distribución de graduados STEM vs No-STEM (totales)
 stem_dist <- Datos %>%
@@ -225,9 +233,11 @@ ggplot(stem_dist, aes(x = STEM_MICITT, y = n, fill = STEM_MICITT)) +
   theme_minimal() +
   scale_fill_manual(values = paleta[2:3])
 ```
+
 El gráfico presenta el total de graduados según su área de conocimiento, distinguiendo entre STEM y No STEM. Se observa que los graduados en áreas No STEM son aproximadamente 14.000 personas, mientras que los graduados en STEM alcanzan un poco más de 5.000 personas.
 
 #### Relación entre sexo de los graduados y clasificación STEM
+
 ```{r}
 ggplot(Datos, aes(x = STEM_MICITT, fill = SEXO)) +
   geom_bar(position = "dodge") +
@@ -240,9 +250,11 @@ ggplot(Datos, aes(x = STEM_MICITT, fill = SEXO)) +
   ) +
   theme_minimal()
 ```
+
 En el gráfico se observa que, en las carreras no STEM, la mayoría de las personas graduadas son mujeres, superando casi el doble de la cantidad de hombres graduados. En contraste, en las carreras STEM, aunque las cifras son más equilibradas, la cantidad de hombres graduados es mayor que la de mujeres.
 
 #### Graduados por universidad según área de conocimiento
+
 ```{r}
 uni_graduados <- Datos %>%
   group_by(ABREVIACIÓN) %>%
@@ -273,9 +285,11 @@ ggplot(uni_area, aes(x = reorder(ABREVIACIÓN, n_graduados, sum),
   theme(axis.text.x = element_text(hjust = 1)) +
   scale_fill_manual(values = paleta_expandida)
 ```
+
 El gráfico muestra la distribución de graduados por área de conocimiento según la universidad. En el TEC, la mayor cantidad de graduados se concentra en Ingenierías, destacando como la principal área de formación de esta institución. En la UNA, los graduados se concentran principalmente en Educación y Ciencias Económicas. La UNED también muestra su mayor número de egresados en Educación y Ciencias Económicas, siguiendo un patrón similar al de la UNA. Finalmente, la UCR se destaca por tener la mayor cantidad de graduados en Ciencias Básicas, además de una distribución considerable en Educación, Ingeniería y Ciencias Sociales, siendo esta última la institución con más egresados en dicha área.
 
-#### Comparación entre número de graduados por provincia y universidad   
+#### Comparación entre número de graduados por provincia y universidad
+
 ```{r}
 Datos %>%
   mutate(
@@ -295,12 +309,13 @@ Datos %>%
   coord_flip() +
   theme(axis.text.y = element_text(angle = 0, hjust = 1))
 ```
-Aquí podemos observar que existe un tipo de relación entre la cantidad de personas graduadas por provincia de nacimiento y la ubicación de la universidad en la que obtuvieron su título, especialmente dentro de la GAM. Se aprecia que en Alajuela la mayoría de graduados provienen de la UTN, ubicada en esa misma provincia. En Heredia predomina la UNA y en San José la UCR, también localizada ahí. La única excepción a este patrón es el TEC, ya que aunque se encuentra en Cartago, en dicha provincia la mayoría de graduados son de la UCR.
-Por otro lado, en las provincias fuera de la GAM se observa que en Limón y Puntarenas la mayoría de graduados pertenecen a la UNED, lo cual tiene sentido al ser una universidad con modalidad virtual, mientras que en Guanacaste predominan los graduados de la UNA.
+
+Aquí podemos observar que existe un tipo de relación entre la cantidad de personas graduadas por provincia de nacimiento y la ubicación de la universidad en la que obtuvieron su título, especialmente dentro de la GAM. Se aprecia que en Alajuela la mayoría de graduados provienen de la UTN, ubicada en esa misma provincia. En Heredia predomina la UNA y en San José la UCR, también localizada ahí. La única excepción a este patrón es el TEC, ya que aunque se encuentra en Cartago, en dicha provincia la mayoría de graduados son de la UCR. Por otro lado, en las provincias fuera de la GAM se observa que en Limón y Puntarenas la mayoría de graduados pertenecen a la UNED, lo cual tiene sentido al ser una universidad con modalidad virtual, mientras que en Guanacaste predominan los graduados de la UNA.
 
 ### Comparación Territorial
 
 #### Efecto de estudiar en GAM vs fuera de GAM
+
 ```{r}
 # Distribución de graduados por GAM_SEDE
 gam_sede_dist <- Datos %>%
@@ -321,9 +336,11 @@ ggplot(gam_sede_dist, aes(x = reorder(GAM_SEDE, n), y = n, fill = GAM_SEDE)) +
   theme_minimal() +
   scale_fill_manual(values = paleta[2:3])
 ```
+
 El gráfico muestra la distribución de graduados según si estudian en la GAM o fuera de ella. Se observa que más de la mitad de los graduados provienen de universidades situadas en la GAM, mientras que el resto se gradúa en instituciones fuera de esta región. Esto refleja la concentración de estudiantes en la región metropolitana y su predominancia en el total de egresados.
 
 #### Efecto de vivir en GAM vs fuera de GAM
+
 ```{r}
 # Distribución de graduados por GAM_ESTUDIANTE 
 gam_est_dist <- Datos %>%
@@ -344,9 +361,11 @@ ggplot(gam_est_dist, aes(x = reorder(GAM_ESTUDIANTE, n), y = n, fill = GAM_ESTUD
   theme_minimal() +
   scale_fill_manual(values = paleta[2:3])
 ```
+
 El gráfico evidencia que la cantidad de egresados dentro y fuera de la GAM es bastante similar. Aunque la GAM presenta un número ligeramente mayor de graduados, la diferencia es mínima, aproximadamente unas 200 personas o incluso menos, lo que indica que la residencia dentro o fuera de la región metropolitana no genera grandes disparidades en la cantidad de egresados.
 
 #### Distribución de graduados según zona rural o urbana
+
 ```{r}
 # Totales de graduados por zona
 zona_dist <- Datos %>%
@@ -366,10 +385,11 @@ ggplot(zona_dist, aes(x = reorder(ZONA_URBANO_RURAL_GRADUADO, n), y = n, fill = 
   theme_minimal() +
   scale_fill_manual(values = paleta[2:3])
 ```
-El gráfico muestra la distribución de graduados según su zona de residencia. Se observa que la mayoría de los egresados viven en zonas urbanas, con aproximadamente 15.000 personas, mientras que poco más de 5.000 provienen de zonas rurales. Esto indica una concentración significativa de graduados en áreas urbanas frente a rurales.
-### Comparación Socio-Demográficas
 
-#### Distribución de graduados por sexo 
+El gráfico muestra la distribución de graduados según su zona de residencia. Se observa que la mayoría de los egresados viven en zonas urbanas, con aproximadamente 15.000 personas, mientras que poco más de 5.000 provienen de zonas rurales. Esto indica una concentración significativa de graduados en áreas urbanas frente a rurales. \### Comparación Socio-Demográficas
+
+#### Distribución de graduados por sexo
+
 ```{r}
 # Distribución de graduados por sexo 
 sexo_dist <- Datos %>%
@@ -389,9 +409,11 @@ ggplot(sexo_dist, aes(x = SEXO, y = n, fill = SEXO)) +
   theme_minimal() +
   scale_fill_manual(values = paleta[2:3])
 ```
-El gráfico presenta el total de graduados por sexo. Se observa que la mayoría de los egresados son mujeres, mientras que los hombres representan un menor número del total. 
+
+El gráfico presenta el total de graduados por sexo. Se observa que la mayoría de los egresados son mujeres, mientras que los hombres representan un menor número del total.
 
 #### Distribución por sexo y área de conocimiento
+
 ```{r}
 # Distribución de graduados por sexo y área
 sexo_area_dist <- Datos %>%
@@ -412,9 +434,11 @@ ggplot(sexo_area_dist, aes(x = AREA_CONOCIMIENTO, y = n, fill = SEXO)) +
   theme(axis.text.x = element_text(hjust = 1)) +
   scale_fill_manual(values = paleta[2:3])
 ```
+
 El gráfico que muestra el total de graduados por sexo y área de conocimiento evidencia diferencias significativas según la disciplina. En Recursos Naturales predominan las mujeres, mientras que en Ingeniería hay ligeramente más hombres. En Educación, la diferencia es muy marcada, con más de tres mil mujeres graduadas frente a aproximadamente mil hombres. En Derecho hay una ligera mayoría de mujeres. En Computación, predominan los hombres, mientras que en Ciencias Sociales, Ciencias Económicas y Ciencias de la Salud hay más del doble de mujeres que de hombres. En Ciencias Básicas y en Artes y Letras, la distribución es más equilibrada, aunque con una ligera mayoría de mujeres. En general, se observa que las mujeres superan en número a los hombres en la mayoría de las áreas de conocimiento.
 
 #### Distribución por edad
+
 ```{r}
 # Crear grupo de edad
 Datos <- Datos %>%
@@ -451,9 +475,11 @@ ggplot(edad_dist, aes(x = GRUPO_EDAD, y = n, fill = GRUPO_EDAD)) +
 # Estadísticos descriptivos
 summary(Datos$EDAD)
 ```
-El gráfico que muestra el total de graduados por grupo de edad evidencia que la mayor concentración de egresados se encuentra en el rango de 25 a 29 años, seguido por el grupo de 21 a 24 años. Los graduados mayores de 30 años ocupan un tercer lugar en cantidad, mientras que el grupo de 17 a 20 años es el menos representado, con muy pocas personas. 
+
+El gráfico que muestra el total de graduados por grupo de edad evidencia que la mayor concentración de egresados se encuentra en el rango de 25 a 29 años, seguido por el grupo de 21 a 24 años. Los graduados mayores de 30 años ocupan un tercer lugar en cantidad, mientras que el grupo de 17 a 20 años es el menos representado, con muy pocas personas.
 
 #### Migrantes vs Nacionales
+
 ```{r}
 # Totales por nacionalidad
 nat_ext <- Datos %>%
@@ -471,9 +497,11 @@ ggplot(nat_ext, aes(x = TIPO_NACIONALIDAD, y = n, fill = TIPO_NACIONALIDAD)) +
   theme_minimal() +
   scale_fill_manual(values = paleta[2:3])
 ```
+
 El gráfico evidencia que la gran mayoría son nacionales, alcanzando casi los 20.000 egresados. En contraste, los graduados extranjeros son muy pocos, prácticamente cercanos a cero. Esto indica que la participación de estudiantes extranjeros en las universidades públicas de Costa Rica es mínima frente a la de los estudiantes nacionales.
 
 #### Migrantes por universidad
+
 ```{r}
 migrantes <- Datos %>%
   filter(TIPO_NACIONALIDAD != "Nacional") %>%   # Solo migrantes
@@ -496,11 +524,13 @@ ggplot(migrantes, aes(x = reorder(UNIVERSIDAD, migrantes), y = migrantes)) +
   theme_minimal()
 
 ```
-El gráfico evidencia que la Universidad Estatal a Distancia (UNED) concentra la mayor cantidad, con un poco menos de 120 personas. Le siguen la Universidad de Costa Rica (UCR) y la Universidad Nacional (UNA), con cifras muy similares, siendo ligeramente mayor la UCR. Posteriormente se ubica la Universidad Técnica Nacional (UTN), y finalmente el Tecnológico de Costa Rica (TEC), que presenta la menor cantidad de graduados migrantes. 
+
+El gráfico evidencia que la Universidad Estatal a Distancia (UNED) concentra la mayor cantidad, con un poco menos de 120 personas. Le siguen la Universidad de Costa Rica (UCR) y la Universidad Nacional (UNA), con cifras muy similares, siendo ligeramente mayor la UCR. Posteriormente se ubica la Universidad Técnica Nacional (UTN), y finalmente el Tecnológico de Costa Rica (TEC), que presenta la menor cantidad de graduados migrantes.
 
 ## 6. Distribución de las variables categóricas
 
 ### Gráfico de distribución según universidad
+
 ```{r}
 Datos %>% 
 ggplot( aes(x = ABREVIACIÓN)) +
@@ -512,6 +542,7 @@ ggplot( aes(x = ABREVIACIÓN)) +
   ) +
   theme_minimal()
 ```
+
 En este gráfico se observa que la mayor cantidad de personas graduadas proviene de la UCR, seguida por la UNED. En tercer lugar aparece la UNA, luego la UTN y, finalmente, el TEC.
 
 ### Gráfico de distribución según tipo de zona
@@ -529,16 +560,19 @@ Datos %>%
   coord_flip() + 
   theme(axis.text.y = element_text(angle = 0, hjust = 1))
 ```
-En este gráfico se observa que la mayor cantidad de personas graduadas proviene de las carreras de Ciencias Económicas y Educación. En contraste, Derecho y Ciencias Básicas presentan un número de graduados considerablemente menor.
 
+En este gráfico se observa que la mayor cantidad de personas graduadas proviene de las carreras de Ciencias Económicas y Educación. En contraste, Derecho y Ciencias Básicas presentan un número de graduados considerablemente menor.
 
 ## 7. Identificación de valores faltantes y atípicos (outliers)
 
 Valores faltantes:
+
 ```{r}
 colSums(is.na(Datos))
 ```
-Cantidad de outliers en variable EDAD: 
+
+Cantidad de outliers en variable EDAD:
+
 ```{r}
 Q1 <- quantile(Datos$EDAD, 0.25, na.rm = TRUE)
 Q3 <- quantile(Datos$EDAD, 0.75, na.rm = TRUE)
@@ -553,13 +587,14 @@ outliers <- Datos %>%
 
 nrow(outliers)
 ```
+
 Visualización de outliers
+
 ```{r}
 outliers %>%
   select(EDAD, UNIVERSIDAD, CARRERA, SEXO) %>%
   arrange(EDAD)
 ```
-
 
 ## 8. Estrategias para el tratamiento de valores perdidos y outliers
 
@@ -569,12 +604,153 @@ Datos <- Datos %>%
   mutate(EDAD_outlier = if_else(EDAD < limite_inferior | EDAD > limite_superior,
                                 TRUE, FALSE))
 ```
-Usando el método de marcación, que consiste en crear una variable que indique si cada registro es un outlier según los límites definidos por el rango intercuartílico (IQR), resulta útil en la variable edad porque permite identificar fácilmente los valores fuera del rango esperado, facilita filtrar o segmentar los datos y resaltar los extremos en gráficos. Además, permite aplicar técnicas estadísticas de manera controlada, asegurando un análisis más preciso y reproducible.  
+
+Usando el método de marcación, que consiste en crear una variable que indique si cada registro es un outlier según los límites definidos por el rango intercuartílico (IQR), resulta útil en la variable edad porque permite identificar fácilmente los valores fuera del rango esperado, facilita filtrar o segmentar los datos y resaltar los extremos en gráficos. Además, permite aplicar técnicas estadísticas de manera controlada, asegurando un análisis más preciso y reproducible.\
 No se aplicó ningún tratamiento para los valores faltantes, ya que en la tabla utilizada no existen registros con datos ausentes.
 
 ## 9. Referencias
+
 Consejo Nacional de Rectores. (2025, 12 de octubre). Datos Abiertos. CONARE. https://www.conare.ac.cr/transparencia/datos-abiertos/
 
 # Bitácora 3
 
+## Técnicas y métodos estadísticos utilizados
 
+  Debido a que la pregunta de investigación se centra en la observación de los datos y de su distribución se hará uso principalmente de métodos descriptivos, entre estos los principales serán:
+
+### Métodos estadísticos cuantitativos:
+
+-   Media: Para las variables cuantitativas para sacar el promedio de edad de los graduados, relacionar cuantos están en el rango de STEM y NO STEM, calcular la media de graduados por provincia y sobre la distribución de cual nivel académico tiende a verse más graduados particularmente en el 2024.
+
+-   Mediana: Analizar el dato medio de las categorías, también se utilizará en el análisis de gráficos.
+
+-   Desviación estándar: Atado a la media, ver que tanta dispersión de los datos hay.
+
+-   Rango: Diferencia entre mínimos y máximos de cada gráfico.
+
+### Métodos estadísticos categóricos:
+
+-   Moda: Con el fin de revisar cuales se tienden a escogerse más entre las variables, universidades con más graduados y áreas de conocimiento más común
+
+### Métodos estadísticos mixtos
+
+-   gráficos: se usará para analizar la relación entre variables categóricas y numéricas, en especial de barras y cajas de bigotes para observar las distintas distribuciones y características de los graduados de las universidades en el sector estatal en el año 2024.
+
+## Marco metodológico
+
+### Introducción del marco metodológico
+
+  Se hará uso del lenguaje de programación R y el conjunto de librerías tidyverse para la creación de tablas y gráficos donde asociemos las características académicas, demográficas y territoriales de los estudiantes graduados universitarios en el año 2024. Para comenzar observaremos nuestros datos mediante gráficos para la observación de los datos y como se encuentran distribuidos con base en universidad, carreras, áreas de estudios
+luego buscaremos el relacionar variables en carreras de interés y observaremos relaciones utilizado principalmente gráficos de cajas de bigotes dado que nos ayudan a asociar los datos numéricos de la edad de graduación junto con variables del tipo categórico como su área de estudio y si es STEM o no
+
+### Enfoque de la investigación
+
+  La investigación tiene un enfoque cuantitativo descriptivo, pues se hace uso del análisis númerico y categórico del dataset de personas graduadas de universidades estatales durante el año 2024. El objetivo es caracterizar la población estudiada mediante métodos estadísticos tales como: identificar patrones relevantes y comparar grupos según atributos académicos, socio-demográficos y territoriales.
+  
+### Diseño de investigación
+
+  La investigación tiene un diseño documental, pues se centra en el análisis de un conjunto de datos ya recolectados.
+  
+### Población y muestra de estudio
+
+#### Población de estudio
+
+  Todas las personas que obtuvieron un título universitario en universidades estatales de Costa Rica durante el año 2024.
+  
+#### Muestra de estudio
+
+  Se utiliza toda la base de datos, pues estos ya están en el grupo representativo del año 2024 de los estudiantes graduados de universidades estatales.
+  
+### Fuentes de información
+
+  La tabla de datos a utilizar es sobre los diplomas otorgados a estudiantes durante el lapso 2024 en el sector público y registra un total de 20 456 graduados entre las diferentes universidades públicas en Costa Rica, siendo las mencionadas: Universidad de Costa Rica, Universidad Nacional, Tecnológico de Costa Rica, Universidad Estatal a Distancia y Universidad Técnica Nacional. Esta base de datos fue suministrada por medio de las oficinas de registro de las universidades estatales durante el año anteriormente mencionado y distribuida por la División de Planificación Interuniversitaria del Consejo Nacional de Rectores, más conocido como la OPES-Conare [OPES-CONARE](https://www.conare.ac.cr/transparencia/datos-abiertos/). 
+  
+### Variables del dataset
+
+  La tabla posee un total de 24 variables, siendo las cuales son: 
+  - sector universitario
+  - universidad
+  - GAM sede
+  - sede Conare
+  - región de planificación sede
+  - carrera
+  - grado académico
+  - nivel académico
+  - área de conocimiento
+  - disciplina
+  - área UNESCO
+  - disciplina UNESCO
+  - STEM MICITT
+  - sexo
+  - edad
+Entre otras, ya mencionadas en la bitácora 2.
+
+### Procesamiento y limpieza de datos
+
+#### Revisión inicial
+
+  Se hizo una previsualización inicial de los datos con funciones de R, como head y view.
+  
+#### identificar tipos de variables
+
+  Se usaron funciones tales como, sapply, para identificar los tipos de dato y definir así los métodos estadísticos a utilizar.
+  
+#### Tratamiento de NA's y outliers
+
+  - No había NA's.
+  - Para los outliers en edad se utilizó el método IQR para así poder marcarlos.
+  
+### Métodos estadísticos
+Los anteriormente mencionados
+
+#### Métodos cuantitativos
+
+- Media: para obtener promedios de edad y promedios por grupos.
+
+- Mediana: para describir el valor central de las distribuciones.
+
+- Desviación estándar: para evaluar la dispersión en variables numéricas.
+
+- Rango: para identificar mínimos y máximos.
+
+#### Métodos categóricos
+
+- Moda: para identificar las categorías más frecuentes (universidad, carrera, área de conocimiento).
+
+- Tablas de frecuencia y proporciones generadas mediante group_by y summarise.
+
+#### Métodos mixtos
+
+- Se emplearon gráficos para relacionar variables numéricas y categóricas:
+
+- Histogramas (edad).
+
+- Gráficos de barras (universidades, STEM vs No STEM, sexo).
+
+- Diagramas comparativos por grupos académicos y territoriales.
+
+La visualización permitió identificar patrones difíciles de observar únicamente con medidas numéricas.
+
+### Procedimiento del análisis
+
+- Importación de datos.
+
+- Vista preliminar de datos y variables.
+
+- Clasificación y descripción de variables.
+
+- Detección y marcación de outliers.
+
+- Aplicación de métodos estadísticos.
+
+- Construcción de gráficos.
+
+- Interpretación de los resultados.
+
+- Elaboración de conclusiones y recomendaciones.
+
+## Analisis y resultados de métodos estadísticos
+
+## Conclusiones
+
+## Limitaciones
